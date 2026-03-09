@@ -1,4 +1,4 @@
-# DataClean 🧹
+# Cleansly 🧹
 
 **Enterprise-grade data cleansing library for Python.**  
 A composable, auditable, and production-ready toolkit for cleaning, validating, and transforming pandas DataFrames.
@@ -56,8 +56,8 @@ A composable, auditable, and production-ready toolkit for cleaning, validating, 
 
 **From source (development):**
 ```bash
-git clone https://github.com/your-org/dataclean.git
-cd dataclean
+git clone https://github.com/your-org/cleansly.git
+cd cleansly
 pip install -e ".[dev]"
 ```
 
@@ -69,11 +69,11 @@ pip install -e ".[dev]"
 
 ```python
 import pandas as pd
-from dataclean import (
+from cleansly import (
     CleaningPipeline, TextCleaner, NumericCleaner,
     MissingValueHandler, Standardizer, SchemaValidator,
 )
-from dataclean.validators.schema import ColumnSchema
+from cleansly.validators.schema import ColumnSchema
 
 df = pd.read_csv("customers.csv")
 
@@ -126,7 +126,7 @@ The `CleaningPipeline` records every step's row/column deltas, execution time, a
 The central orchestrator. Chains steps in order, collects metrics, and generates a full execution report.
 
 ```python
-from dataclean import CleaningPipeline
+from cleansly import CleaningPipeline
 
 pipeline = (
     CleaningPipeline(
@@ -148,7 +148,7 @@ print(report.summary())
 ### TextCleaner
 
 ```python
-from dataclean import TextCleaner
+from cleansly import TextCleaner
 
 cleaner = TextCleaner(
     strip_whitespace=True,
@@ -179,7 +179,7 @@ df = cleaner.clean(df, columns=["name", "notes", "description"])
 ### NumericCleaner
 
 ```python
-from dataclean import NumericCleaner
+from cleansly import NumericCleaner
 
 cleaner = NumericCleaner(
     coerce=True,               # Convert strings to numeric (coerce errors to NaN)
@@ -201,7 +201,7 @@ df = cleaner.clean(df, columns=["revenue", "age", "score"])
 ### DateTimeCleaner
 
 ```python
-from dataclean import DateTimeCleaner
+from cleansly import DateTimeCleaner
 
 cleaner = DateTimeCleaner(
     input_formats=["%Y-%m-%d", "%d/%m/%Y", "%B %d %Y"],
@@ -226,7 +226,7 @@ df = cleaner.clean(df, columns=["created_at", "updated_at"])
 ### MissingValueHandler
 
 ```python
-from dataclean import MissingValueHandler
+from cleansly import MissingValueHandler
 
 handler = MissingValueHandler(
     strategy="fill_median",             # Default strategy
@@ -251,8 +251,8 @@ df = handler.clean(df)
 ### SchemaValidator
 
 ```python
-from dataclean import SchemaValidator
-from dataclean.validators.schema import ColumnSchema
+from cleansly import SchemaValidator
+from cleansly.validators.schema import ColumnSchema
 
 schema = {
     "user_id":   ColumnSchema(dtype="int64",   nullable=False, unique=True),
@@ -283,8 +283,8 @@ print(result.summary())
 For cross-column and business logic rules:
 
 ```python
-from dataclean import RuleValidator
-from dataclean.validators.rules import Rule
+from cleansly import RuleValidator
+from cleansly.validators.rules import Rule
 
 rules = [
     # Row-level rule
@@ -315,7 +315,7 @@ print(result.summary())
 ### Standardizer
 
 ```python
-from dataclean import Standardizer
+from cleansly import Standardizer
 
 standardizer = Standardizer(
     column_name_style="snake_case",        # "snake_case", "lower", "upper"
@@ -338,7 +338,7 @@ df = standardizer.transform(df)
 ### Encoder
 
 ```python
-from dataclean import Encoder
+from cleansly import Encoder
 
 encoder = Encoder(
     label_columns=["status", "region"],    # Ordinal label encoding
@@ -361,7 +361,7 @@ df_original = encoder.inverse_transform_labels(df_encoded, columns=["status"])
 ### DataProfiler
 
 ```python
-from dataclean import DataProfiler
+from cleansly import DataProfiler
 
 profiler = DataProfiler(top_n=10)  # Top N most frequent values per column
 profile = profiler.profile(df)
@@ -431,7 +431,7 @@ pipeline = CleaningPipeline(on_error="continue")  # Records error, continues (de
 
 Custom exception hierarchy:
 ```
-DataCleanException
+CleanslyException
 ├── TransformationError  (step, column)
 ├── ValidationError      (field, value, rule)
 ├── SchemaError          (expected, found)
@@ -443,14 +443,14 @@ DataCleanException
 ## Logging
 
 ```python
-from dataclean.utils.logger import get_logger
+from cleansly.utils.logger import get_logger
 import logging
 
 # Human-readable console output (default)
 logger = get_logger("myapp", level=logging.DEBUG)
 
 # Structured JSON (for Datadog, Splunk, CloudWatch, etc.)
-logger = get_logger("myapp", structured=True, log_file="/var/log/dataclean.log")
+logger = get_logger("myapp", structured=True, log_file="/var/log/cleansly.log")
 ```
 
 Sample structured JSON output:
@@ -458,7 +458,7 @@ Sample structured JSON output:
 {
   "timestamp": "2024-11-15T10:23:41.012345+00:00",
   "level": "INFO",
-  "logger": "dataclean.pipeline",
+  "logger": "cleansly.pipeline",
   "message": "Pipeline 'CustomerPipeline' completed in 0.042s. 6/6 steps succeeded.",
   "module": "pipeline",
   "function": "run",
@@ -475,7 +475,7 @@ Sample structured JSON output:
 pytest tests/ -v
 
 # With coverage report
-pytest tests/ -v --cov=dataclean --cov-report=term-missing
+pytest tests/ -v --cov=cleansly --cov-report=term-missing
 
 # Run a specific test class
 pytest tests/ -v -k TestTextCleaner
@@ -486,8 +486,8 @@ pytest tests/ -v -k TestTextCleaner
 ## Project Structure
 
 ```
-dataclean/
-├── dataclean/
+cleansly/
+├── cleansly/
 │   ├── __init__.py              # Public API exports
 │   ├── pipeline.py              # CleaningPipeline, PipelineReport
 │   ├── exceptions.py            # Custom exception hierarchy
@@ -506,7 +506,7 @@ dataclean/
 │       ├── logger.py            # Structured logging
 │       └── profiler.py          # DataProfiler
 ├── tests/
-│   └── test_dataclean.py        # 46 unit tests
+│   └── test_cleansly.py        # 46 unit tests
 ├── examples/
 │   └── end_to_end_example.py    # Full enterprise example
 └── pyproject.toml

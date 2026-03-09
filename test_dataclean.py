@@ -1,5 +1,5 @@
 """
-Tests for DataClean library.
+Tests for Cleansly library.
 Run with: pytest tests/ -v
 """
 
@@ -7,7 +7,7 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from dataclean import (
+from cleansly import (
     CleaningPipeline,
     DateTimeCleaner,
     MissingValueHandler,
@@ -18,10 +18,10 @@ from dataclean import (
     Encoder,
     TextCleaner,
 )
-from dataclean.validators.schema import ColumnSchema
-from dataclean.validators.rules import Rule
-from dataclean.utils.profiler import DataProfiler
-from dataclean.exceptions import TransformationError, SchemaError
+from cleansly.validators.schema import ColumnSchema
+from cleansly.validators.rules import Rule
+from cleansly.utils.profiler import DataProfiler
+from cleansly.exceptions import TransformationError, SchemaError
 
 
 # ── Fixtures ──────────────────────────────────────────────────────────────────

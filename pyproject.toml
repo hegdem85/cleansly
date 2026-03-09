@@ -3,7 +3,7 @@ requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.backends.legacy:build"
 
 [project]
-name = "dataclean"
+name = "cleansly"
 version = "1.0.0"
 description = "Enterprise-grade data cleansing library for Python"
 readme = "README.md"

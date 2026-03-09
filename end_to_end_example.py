@@ -1,12 +1,12 @@
 """
 end_to_end_example.py
 =====================
-Full enterprise data cleansing example using the DataClean library.
+Full enterprise data cleansing example using the Cleansly library.
 """
 
 import pandas as pd
 import numpy as np
-from dataclean import (
+from cleansly import (
     CleaningPipeline,
     TextCleaner,
     NumericCleaner,
@@ -18,8 +18,8 @@ from dataclean import (
     Encoder,
     DataProfiler,
 )
-from dataclean.validators.schema import ColumnSchema
-from dataclean.validators.rules import Rule
+from cleansly.validators.schema import ColumnSchema
+from cleansly.validators.rules import Rule
 
 # ── 1. Create sample "raw" enterprise data ───────────────────────────────────
 raw_data = {
